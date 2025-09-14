@@ -46,4 +46,4 @@ To run this project on your local machine, follow these steps:
 **1. Clone the Repository:**
 First, clone the project from GitHub:
 ```bash
-git clone [https://github.com/YOUR_USERNAME/Railway-Management-System.git](https://github.com/YOUR_USERNAME/Railway-Management-System.git)
+git clone https://github.com/Mahdi-masoumi/Railway-Management-System.git
