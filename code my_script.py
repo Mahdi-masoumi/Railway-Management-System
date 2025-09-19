@@ -1,7 +1,11 @@
 import re
+import os
+import datetime
+from bank import API
 
 class User:
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, is log user):
+        self.loguser = loguser
         self.username = username
         self.email = email
         self.password = password
@@ -77,9 +81,13 @@ def login():
     username = input("Username: ").strip()
     password = input("Password: ").strip()
 
+
     for u in users:
         if u.username == username and u.password == password:
             print(f" Welcome {username}!")
+            self.islog = True
+        else:
+            self.islog = False
             return u
 
     print(" Username or password is invalid.")
@@ -98,10 +106,6 @@ def edit_user_info(user):
 
     user.edit_info(new_email if new_email else None,
                    new_password if new_password else None)
-
-import os
-import datetime
-from bank import API
 
 
 
@@ -135,7 +139,7 @@ class TicketSystem:
         print("bilit ba movafaghiat sader va zhakhire shod")
 
 
-class PurchasePanel:
+class PurchasePanel(User):
     def __init__(self ,train_info,user_logged_in):
         self.train_info = train_info
         self.user_logged_in = user_logged_in
