@@ -100,46 +100,6 @@ def edit_user_info(user):
                    new_password if new_password else None)
 
 
-def user_sub_panel(user):
-    while True:
-        print("\n--- User Panel ---")
-        print("1. Edit Information")
-        print("2. Wallet Balance")
-        print("3. Charge Wallet")
-        print("4. Exit")
-        choice = input("Choice: ").strip()
-
-        if choice == "1":
-            edit_user_info(user)
-        elif choice == "2":
-            print(f" Your wallet balance: {user.wallet}")
-        elif choice == "3":
-            try:
-                amount = float(input("Enter amount to charge: "))
-                user.add_money(amount)
-            except ValueError:
-                print(" Invalid input.")
-        elif choice == "4":
-            break
-        else:
-            print(" Invalid choice!")
 
 
-def user_panel():
-    while True:
-        print("\n--- Normal User ---")
-        print("1. Signup")
-        print("2. Login")
-        print("3. Return")
-        choice = input("Choice: ").strip()
 
-        if choice == "1":
-            signup()
-        elif choice == "2":
-            user = login()
-            if user:
-                user_sub_panel(user)
-        elif choice == "3":
-            break
-        else:
-          print(" Invalid choice!")
