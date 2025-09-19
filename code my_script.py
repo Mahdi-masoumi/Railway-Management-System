@@ -4,8 +4,8 @@ import datetime
 from bank import API
 
 class User:
-    def __init__(self, username, email, password, is log user):
-        self.loguser = loguser
+    def __init__(self, username, email, password, isloguser):
+        self.loguser = isloguser
         self.username = username
         self.email = email
         self.password = password
@@ -77,17 +77,17 @@ def signup():
 
 
 def login():
+    global loguser
     print("\n--- User Login ---")
     username = input("Username: ").strip()
     password = input("Password: ").strip()
 
-
     for u in users:
         if u.username == username and u.password == password:
             print(f" Welcome {username}!")
-            self.islog = True
+            loguser = True
         else:
-            self.islog = False
+            loguser = False
             return u
 
     print(" Username or password is invalid.")
@@ -141,10 +141,12 @@ class TicketSystem:
 
 class PurchasePanel(User):
     def __init__(self ,train_info,user_logged_in):
+        super().__init__(isloguser = True)
         self.train_info = train_info
         self.user_logged_in = user_logged_in
         self.balance = 0
         self.my_cards = []
+        
 
     def add_funds(self, amount, num):
         if num == 2:
@@ -284,8 +286,3 @@ trains = [
 
 c1 = PurchasePanel(trains, True)
 c1.print_panel()
-
-
-
-
-
