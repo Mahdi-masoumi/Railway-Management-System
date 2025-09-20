@@ -19,3 +19,9 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
     buyer_name = input("Enter your name: ")  
     self.issue_ticket(buyer_name, train_name, ticket_count, total_amount)
 
+
+    def logout(self):   
+        print("shoma kharej shodid be omid didar")   
+        self.user_logged_in = False             
+        exit()  
+
