@@ -14,5 +14,8 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
         f.write(f"Date & Time : {purchase_time}\n")
         f.write("==========================\n")
 
-    print(f"bilit ba onvan {filename}" zakhire shod)
+    print(f"bilit ba onvan {filename} zakhire shod")
+
+    buyer_name = input("Enter your name: ")  
+    self.issue_ticket(buyer_name, train_name, ticket_count, total_amount)
 
