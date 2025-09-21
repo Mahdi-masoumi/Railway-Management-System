@@ -4,6 +4,15 @@ class Employee:
 #Line Methods
         
     def add_line(self, name, start, stop, stations):
+        if not name or not start or not stop:
+            print("Name, start, and stop cannot be empty.")
+            return
+        if not start.replace(" ", "").isalpha() or not stop.replace(" ", "").isalpha():
+            print("start and stop must only contain letters.")
+            return
+        if not isinstance(stations, str):
+            print("Stations must be a single string (e.g. 'Tehran,Qom,Isfahan').")
+            return
         if name in self.lines:
             print(f"Line '{name}' already exists.")
             return
@@ -20,10 +29,25 @@ class Employee:
             print(f"Line '{name}' not found.")
             return
         if new_start:
+            if not new_start.replace(" ", "").isalpha():
+                print("Start must only contain letters.")
+                return
             self.lines[name]["start"] = new_start
+
         if new_stop:
+            if not new_stop.replace(" ", "").isalpha():
+                print("Stop must only contain letters.")
+                return
             self.lines[name]["stop"] = new_stop
+
         if new_stations:
+            if not isinstance(new_stations, str):
+                print("Stations must be a single string (e.g. 'Tehran,Qom,Isfahan').")
+                return
+            for station in new_stations.split(","):
+                if not station.strip().replace(" ", "").isalpha():
+                    print(f"Station '{station.strip()}' is invalid. Stations must only contain letters.")
+                    return
             self.lines[name]["stations"] = new_stations
         print(f"Line '{name}' updated.")
 
@@ -41,4 +65,5 @@ class Employee:
             print("Line was not available") 
             return
         for name, info in self.lines.items():
-            print(f"{name}: {info['start']} -> {info['stop']} | Stations: {(info['stations']).replace(",", "-").split(",")}")
+            stations_str = info['stations'].replace(",", "-").split(",")
+            print(f"{name}: {info['start']} -> {info['stop']} | Stations: {stations_str}")
