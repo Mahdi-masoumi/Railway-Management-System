@@ -1,37 +1,6 @@
 import os
-import datetime
 from bank import API
-
-
-
-class Ticket:
-    def __init__(self, buyer_name, train_name, ticket_count, price, purchase_time):
-        self.buyer_name = buyer_name
-        self.train_name = train_name
-        self.ticket_count = ticket_count
-        self.price = price
-        self.purchase_time = purchase_time
-
-    def get_ticket_info(self):
-        total_price = self.price * self.ticket_count
-        return f"""
-Buyer Name : {self.buyer_name}
-Train Name : {self.train_name}
-Ticket Count : {self.ticket_count}
-Price per Ticket : {self.price}
-Total Price : {total_price}
-Purchase Time : {self.purchase_time}
-"""
-
-class TicketSystem:
-    def __init__(self, file_name="tickets.txt"):
-        self.file_name = file_name
-
-    def issue_ticket(self, ticket: Ticket):
-        with open(self.file_name, "a", encoding="utf-8") as file:
-            file.write(ticket.get_ticket_info())
-            file.write("\n" + "-"*50 + "\n")
-        print("bilit ba movafaghiat sader va zhakhire shod")
+import datetime    
 
 
 class PurchasePanel:
@@ -46,10 +15,19 @@ class PurchasePanel:
             self.balance += amount
         else:
             card = input("Enter card number: ")
-            exp_month = int(input("Enter expiration month (1-12): "))
-            exp_year = int(input("Enter expiration year (1405): "))
+            exp_month = input("Enter expiration month (1-12): ")
+            exp_year = input("Enter expiration year (1405): ")
             password = input("Enter 6-digit password: ")
             cvv2 = input("Enter CVV2 (3 digits): ")
+            if type(card and exp_month and exp_year and password and cvv2) is not int() :
+                print("Invalid information")
+                self.print_panel()
+            else :
+                card = int(card)
+                exp_month = int(exp_month)
+                exp_year = int(exp_year)
+                cvv2 = int(cvv2)
+                password = int(password)
 
             api = API()
             try:
@@ -66,8 +44,29 @@ class PurchasePanel:
                 if num == 1:
                     self.balance += amount
 
-            except ValueError as e:
-                print(f"Payment failed: {e}")
+            except ValueError:
+                print("invalid input")
+                self.print_panel()
+
+
+  def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
+    import datetime
+    purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    filename = f"{buyer_name}_ticket.txt"
+
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("===== Railway Ticket =====\n")
+        f.write(f"Buyer       : {buyer_name}\n")
+        f.write(f"Train       : {train_name}\n")
+        f.write(f"Tickets     : {ticket_count}\n")
+        f.write(f"Total Price : {total_amount}\n")
+        f.write(f"Date & Time : {purchase_time}\n")
+        f.write("==========================\n")
+
+    print(f"bilit ba onvan {filename} zakhire shod")
+                             
+
+
 
     def buy_ticket(self):
         with open("trains.txt", "w") as f:
@@ -78,7 +77,7 @@ class PurchasePanel:
         os.startfile('trains.txt')
 
         print(f"Your current balance: {self.balance}")
-        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
+        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") # 1_افزایش موجودی 2_ادامه خرید
 
         if choice2 == "1":
             try:
@@ -86,21 +85,22 @@ class PurchasePanel:
             except ValueError:
                 print("Invalid input! Please enter a number.")
                 self.buy_ticket()
-                return
-
             if self.my_cards != []:
-                choice3 = input("Select one of your saved cards, or type 'new' to add a new card: ")
+                for card in self.my_cards:
+                    print(f"")
+                choice3 = input("Select one of your saved cards, or type 'new' to add a new card.: ")
                 if choice3 == "new":
                     self.add_funds(add,1)
+                    print(self.balance)
                 else:
                     for card in self.my_cards:
-                        if str(card["card"]) == choice3:
+                        if card["card"] == choice3:
                             self.add_funds(add, 2)
+                            print(self.balance)
                             break
             else:
                 self.add_funds(add,1)
-
-            print(f"Updated balance: {self.balance}")
+                print(self.balance)
             self.print_panel()
 
         elif choice2 == "2":
@@ -109,9 +109,6 @@ class PurchasePanel:
                 ticket_count = int(input("Enter the number of tickets you want: "))
             except ValueError:
                 print("Invalid input! Please enter a number.")
-                self.buy_ticket()
-                return
-
             for train in self.train_info:
                 if train["name"] == train_name:
                     if train["mojodi"] >= ticket_count:
@@ -122,20 +119,11 @@ class PurchasePanel:
                             print(f"The total amount {total_amount} has been successfully deducted from your account!")
                             print(f"Current balance = {self.balance}")
 
-                            
-                            buyer_name = input("name khod ra baraye bilit vared konid: ")
-                            purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                            ticket = Ticket(
-                                buyer_name=buyer_name,
-                                train_name=train_name,
-                                ticket_count=ticket_count,
-                                price=train["price"],
-                                purchase_time=purchase_time
-                            )
-                            ticket_system = TicketSystem()
-                            ticket_system.issue_ticket(ticket)
+                          
+                            buyer_name = input("name ra vared konid: ")  
+                            self.issue_ticket(buyer_name, train_name, ticket_count, total_amount)  
 
-                            self.print_panel()
+                            self.print_panel() 
 
                         else:
                             print("Insufficient balance!")
@@ -143,23 +131,26 @@ class PurchasePanel:
                     else:
                         print("The number of tickets you requested exceeds the available tickets!")
                         self.buy_ticket()
-
         elif choice2 == "3":
             self.print_panel()
+
         else:
             print("Invalid input! Please enter a number.")
             self.buy_ticket()
 
+
+
     def edit_user_info(self):
         pass
 
-    def logout(self):
-        print("You have logged out.")
-        self.user_logged_in = False
-
+     def logout(self):   
+        print("shoma kharej shodid be omid didar")   
+        self.user_logged_in = False             
+        
+         
     def print_panel(self):
-        if self.user_logged_in:
-            choice = input("Enter your choice \n(1: Buy Ticket, 2: Edit User Information, 3: Logout)\n: ")
+        if self.user_logged_in == True:
+            choice = input("Enter your choice \n(1: Buy Ticket, 2: Edit User Information, 3: Logout)\n : ")
             if choice == "1":
                 self.buy_ticket()
             elif choice == "2":
@@ -167,7 +158,7 @@ class PurchasePanel:
             elif choice == "3":
                 self.logout()
             else:
-                print("Invalid input!")
+                print("Invalid input! ")
                 self.print_panel()
 
 
@@ -175,7 +166,5 @@ trains = [
     {"name" : "fadak", "roh" : "tehran_shomal", "price" : 300000, "mojodi": 12},
     {"name" : "fadake", "roh" : "tehran_shomal", "price" : 750000, "mojodi": 5}
 ]
-
-
 c1 = PurchasePanel(trains, True)
 c1.print_panel()
