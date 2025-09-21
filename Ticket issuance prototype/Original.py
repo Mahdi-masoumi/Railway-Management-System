@@ -1,7 +1,7 @@
 import datetime
 
 def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
-    import datetime
+    
     purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = f"{buyer_name}_ticket.txt"
 
