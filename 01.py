@@ -18,7 +18,7 @@ class PurchasePanel:
             exp_year = input("Enter expiration year (1405): ")
             password = input("Enter 6-digit password: ")
             cvv2 = input("Enter CVV2 (3 digits): ")
-            if type(card and exp_month and exp_year and password and cvv2) is not int() :
+            if not all(x.isdigit() for x in (card, exp_month, exp_year, password, cvv2)):
                 print("Invalid information")
                 self.print_panel()
             else :
