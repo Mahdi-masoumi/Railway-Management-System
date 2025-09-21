@@ -53,7 +53,7 @@ class PurchasePanel:
     purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = f"{buyer_name}_ticket.txt"
 
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(filename, "a", encoding="utf-8") as f:
         f.write("===== Railway Ticket =====\n")
         f.write(f"Buyer       : {buyer_name}\n")
         f.write(f"Train       : {train_name}\n")
