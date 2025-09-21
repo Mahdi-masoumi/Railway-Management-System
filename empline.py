@@ -41,4 +41,4 @@ class Employee:
             print("Line was not available") 
             return
         for name, info in self.lines.items():
-            print(f"{name}: {info['start']} -> {info['stop']} | Stations: {', '.join(info['stations'])}")
+            print(f"{name}: {info['start']} -> {info['stop']} | Stations: {(info['stations']).replace(",", "-").split(",")}")
