@@ -32,7 +32,7 @@ class Employee:
         if name not in self.lines:
             print(f"Line'{name}' not found.")
             return
-        del self.line[name]
+        del self.lines[name]
         print(f"Line '{name}' deleted.")
 
 
