@@ -8,8 +8,12 @@ class Employee:
     def employee_panel(self):
         print("Welcome to the employee panel!\n enter where you wanna go:\n 1.add line\n 2.edit line\n 3.delete line\n 4.show lines\n 5.add train\n 6.edit train\n 7.delete train\n 8.show trains\n 9.exit")
         choice = input("Enter your choice (1-9): ")
+        if choice not in [str(i) for i in range(1, 10)]:
+            print("Invalid choice. Please enter a number between 1 and 9.")
+            self.employee_panel()
+            return
         if choice == "1":
-            line_name = input("Enter uique line name: ")
+            line_name = input("Enter unique line name: ")
             start_station = input("Enter start station: ")
             stop_station = input("Enter stop station: ")
             stations = input("Enter stations (comma-separated): ")
@@ -33,11 +37,11 @@ class Employee:
         elif choice == "5":
             train_name = input("Enter train name: ")
             train_line = input("Enter train line: ")
-            avg_speed = float(input("Enter average speed: "))
-            delay = float(input("Enter delay: "))
-            quality = float(input("Enter quality (1-5): "))
-            ticket_price = float(input("Enter ticket price: "))
-            capacity = int(input("Enter capacity: "))
+            avg_speed = input("Enter average speed: ")
+            delay = input("Enter delay: ")
+            quality = input("Enter quality (1-5): ")
+            ticket_price = input("Enter ticket price: ")
+            capacity = input("Enter capacity: ")
             self.add_train(train_name, train_line, avg_speed,
                            delay, quality, ticket_price, capacity)
             self.employee_panel()
@@ -129,14 +133,17 @@ class Employee:
         if any(train['name'] == name for train in self.trains_list):
             print(f"Train with name {name} already exists.")
             return
+        if not isinstance(avg_speed, float) and not isinstance(delay, float) and not isinstance(quality, float) and not isinstance(ticket_price, float) and not isinstance(capacity, int) and avg_speed <= 0 or delay < 0 or not (1 <= quality <= 5) or ticket_price < 0 or capacity <= 0:
+            print("Invalid train attributes. Please check the values.")
+            return
         train = {
             "name": name,
             "train_line": train_line,
-            "avg_speed": avg_speed,
-            "delay": delay,
-            "quality": quality,
-            "ticket_price": ticket_price,
-            "capacity": capacity
+            "avg_speed": float(avg_speed),
+            "delay": float(delay),
+            "quality": float(quality),
+            "ticket_price": float(ticket_price),
+            "capacity": int(capacity)
         }
         self.trains_list.append(train)
         print(f"Train {name} added successfully.")
