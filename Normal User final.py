@@ -226,7 +226,6 @@ class PurchasePanel:
     def logout(self):   
         print("shoma kharej shodid be omid didar")   
         self.user_logged_in = False       
-        main_menu()
         
     def print_panel(self):
         if self.user_logged_in == True:
@@ -247,4 +246,5 @@ trains = [
     {"name" : "fadake", "roh" : "tehran_shomal", "price" : 750000, "mojodi": 5}
 ]
 c1 = PurchasePanel(trains, True)
+
 c1.print_panel()
