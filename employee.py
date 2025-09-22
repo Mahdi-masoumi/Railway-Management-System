@@ -5,7 +5,61 @@ class Employee:
     def __init__(self):
         pass
 
-        # Line Methods
+    def employee_panel(self):
+        print("Welcome to the employee panel!\n enter where you wanna go:\n 1.add line\n 2.edit line\n 3.delete line\n 4.show lines\n 5.add train\n 6.edit train\n 7.delete train\n 8.show trains\n 9.exit")
+        choice = input("Enter your choice (1-9): ")
+        if choice == "1":
+            line_name = input("Enter uique line name: ")
+            start_station = input("Enter start station: ")
+            stop_station = input("Enter stop station: ")
+            stations = input("Enter stations (comma-separated): ")
+            self.add_line(line_name, start_station, stop_station, stations)
+            self.employee_panel()
+        elif choice == "2":
+            line_name_to_update = input("Enter the line name to update: ")
+            new_start = input("Enter the start point to update: ")
+            new_end = input("Enter the end point to update: ")
+            stations = input(
+                "Enter the stations to update (comma-separated): ")
+            self.update_line(line_name_to_update, new_start, new_end, stations)
+            self.employee_panel()
+        elif choice == "3":
+            line_name_to_delete = input("Enter the line name to delete: ")
+            self.delete_line(line_name_to_delete)
+            self.employee_panel()
+        elif choice == "4":
+            self.view_lines()
+            self.employee_panel()
+        elif choice == "5":
+            train_name = input("Enter train name: ")
+            train_line = input("Enter train line: ")
+            avg_speed = float(input("Enter average speed: "))
+            delay = float(input("Enter delay: "))
+            quality = float(input("Enter quality (1-5): "))
+            ticket_price = float(input("Enter ticket price: "))
+            capacity = int(input("Enter capacity: "))
+            self.add_train(train_name, train_line, avg_speed,
+                           delay, quality, ticket_price, capacity)
+            self.employee_panel()
+        elif choice == "6":
+            train_name_to_update = input(
+                "enter name of the train you wanna update: ")
+            kwargs = input(
+                "enter the data you would like to update(e.g. avg_speed=90): ")
+            self.update_train(train_name_to_update, kwargs=kwargs)
+            self.employee_panel()
+        elif choice == "7":
+            train_to_remove = input(
+                "enter the name of the train you'd like to remove: ")
+            self.remove_train(train_to_remove)
+            self.employee_panel()
+        elif choice == "8":
+            self.view_trains()
+            self.employee_panel()
+    # TODO: choice == "9" ? => Exit to main panel
+
+    # Line Methods
+
     def add_line(self, name, start, stop, stations):
         if not name or not start or not stop:
             print("Name, start, and stop cannot be empty.")
@@ -61,9 +115,9 @@ class Employee:
         del self.lines[name]
         print(f"Line '{name}' deleted.")
 
-    def line_list(self):
+    def view_lines(self):
         if not self.lines:
-            print("Line was not available")
+            print("No lines available.")
             return
         for name, info in self.lines.items():
             stations_str = info['stations'].replace(",", "-").split(",")
@@ -87,10 +141,6 @@ class Employee:
         self.trains_list.append(train)
         print(f"Train {name} added successfully.")
 
-    def view_trains(self):
-        for train in self.trains_list:
-            print(f"train name: {train['name']} | train line: {train['train_line']} | average speed: {train['avg_speed']} | delay: {train['delay']} | quality: {train['quality']} | ticket price: {train['ticket_price']} | capacity: {train['capacity']}")
-
     def update_train(self, name: str, **kwargs):
         for train in self.trains_list:
             if train['name'] == name:
@@ -110,3 +160,7 @@ class Employee:
                 print(f"Train {name} removed successfully.")
                 return
         print(f"Train with name {name} not found.")
+
+    def view_trains(self):
+        for train in self.trains_list:
+            print(f"train name: {train['name']} | train line: {train['train_line']} | average speed: {train['avg_speed']} | delay: {train['delay']} | quality: {train['quality']} | ticket price: {train['ticket_price']} | capacity: {train['capacity']}")
