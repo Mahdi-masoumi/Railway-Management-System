@@ -49,7 +49,7 @@ class PurchasePanel:
                 self.print_panel()
 
 
-  def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
+def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
     purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = f"{buyer_name}_ticket.txt"
 
@@ -76,7 +76,7 @@ class PurchasePanel:
         os.startfile('trains.txt')
 
         print(f"Your current balance: {self.balance}")
-        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") 
+        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") # 1_افزایش موجودی 2_ادامه خرید
 
         if choice2 == "1":
             try:
@@ -142,7 +142,7 @@ class PurchasePanel:
     def edit_user_info(self):
         pass
 
-     def logout(self):   
+    def logout(self):   
         print("shoma kharej shodid be omid didar")   
         self.user_logged_in = False             
         
