@@ -46,13 +46,33 @@ class Train:
             print(
                 f"{t.name} | line: {t.train_line} | cap: {t.capacity} | price: {t.ticket_price}")
 
-    # TODO: implement update_train method
+    # @classmethod
+    # def updateTrain():
+    #     train_name = input(
+    #         "enter the train name of which you want to change the features:")
+    #     feature = input("which feature would you like to change?")
 
+        # @classmethod
+        # def update_train(cls, user_input)
+        # def update_train(cls, name, **kwargs):
+        #     for t in cls.trains_list:
+        #         if t.name == name:
+        #             for key, value in kwargs.items():
+        #                 if hasattr(t, key):
+        #                     setattr(t, key, value)
+        #             print(f"Train '{name}' updated successfully.")
+        #             return
+        #     print(f"No train named '{name}' found.")
+        # TODO: implement update_train method
 
-Train.add_train("Express 1", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
-Train.add_train("Express 2", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
-Train.add_train("Express 3", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
-Train.add_train("Express 4", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
-Train.view_trains()
-Train.delete_train("Express 1")
-Train.view_trains()
+        Train.add_train(
+            "Express 1", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
+        Train.add_train(
+            "Express 2", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
+        Train.add_train(
+            "Express 3", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
+        Train.add_train(
+            "Express 4", "Line A", 80.0, 5.0, 4.5, 50.0, 200)
+        Train.view_trains()
+        Train.delete_train("Express 1")
+        Train.view_trains()
