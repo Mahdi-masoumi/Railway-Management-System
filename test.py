@@ -84,6 +84,37 @@ def list_employees():
         print(f"{user} | {info['name']} {info['family']} | {info['email']}")
 
 
+def admin_panel():
+    if not admin_login():
+        return
+
+    while True:
+        print("\n--- Admin Panel ---")
+        print("1. Add Employee")
+        print("2. Delete Employee")
+        print("3. List Employees")
+        print("4. Logout")
+
+        choice = input("Enter choice: ").strip()
+    
+        if not choice:
+            print("Input cannot be empty. Try again.")
+            continue
+
+        if choice not in ["1", "2", "3", "4"]:
+            print("Invalid choice. Enter 1, 2, 3, 4.")
+            continue
+
+        if choice == "1":
+            add_employee()
+        elif choice == "2":
+            delete_employee()
+        elif choice == "3":
+            list_employees()
+        elif choice == "4":
+            print("Logging out...")
+            break
+
 
 
   
