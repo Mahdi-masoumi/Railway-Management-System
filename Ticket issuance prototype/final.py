@@ -76,7 +76,7 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
         os.startfile('trains.txt')
 
         print(f"Your current balance: {self.balance}")
-        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") # 1_افزایش موجودی 2_ادامه خرید
+        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") 
 
         if choice2 == "1":
             try:
