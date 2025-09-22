@@ -138,7 +138,7 @@ class PurchasePanel:
     def logout(self):   
         print("shoma kharej shodid be omid didar")   
         self.user_logged_in = False       
-        main_menu()
+        
         
     def print_panel(self):
         if self.user_logged_in == True:
