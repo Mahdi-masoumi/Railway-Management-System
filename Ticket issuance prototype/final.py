@@ -4,7 +4,7 @@ import datetime
 
 
 class PurchasePanel:
-    def __init__(self ,train_info,user_logged_in):
+    def __init__(self, train_info, user_logged_in):
         self.train_info = train_info
         self.user_logged_in = user_logged_in
         self.balance = 0
@@ -48,24 +48,20 @@ class PurchasePanel:
                 print("invalid input")
                 self.print_panel()
 
+    def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
+        purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        filename = f"{buyer_name}_ticket.txt"
 
-def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
-    purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    filename = f"{buyer_name}_ticket.txt"
+        with open(filename, "a", encoding="utf-8") as f:
+            f.write("===== Railway Ticket =====\n")
+            f.write(f"Buyer       : {buyer_name}\n")
+            f.write(f"Train       : {train_name}\n")
+            f.write(f"Tickets     : {ticket_count}\n")
+            f.write(f"Total Price : {total_amount}\n")
+            f.write(f"Date & Time : {purchase_time}\n")
+            f.write("==========================\n")
 
-    with open(filename, "a", encoding="utf-8") as f:
-        f.write("===== Railway Ticket =====\n")
-        f.write(f"Buyer       : {buyer_name}\n")
-        f.write(f"Train       : {train_name}\n")
-        f.write(f"Tickets     : {ticket_count}\n")
-        f.write(f"Total Price : {total_amount}\n")
-        f.write(f"Date & Time : {purchase_time}\n")
-        f.write("==========================\n")
-
-    print(f"bilit ba onvan {filename} zakhire shod")
-                             
-
-
+        print(f"bilit ba onvan {filename} zakhire shod")
 
     def buy_ticket(self):
         with open("trains.txt", "w") as f:
@@ -76,7 +72,7 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
         os.startfile('trains.txt')
 
         print(f"Your current balance: {self.balance}")
-        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") 
+        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
 
         if choice2 == "1":
             try:
@@ -118,7 +114,6 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
                             print(f"The total amount {total_amount} has been successfully deducted from your account!")
                             print(f"Current balance = {self.balance}")
 
-                          
                             buyer_name = input("name ra vared konid: ")  
                             self.issue_ticket(buyer_name, train_name, ticket_count, total_amount)  
 
@@ -137,16 +132,14 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
             print("Invalid input! Please enter a number.")
             self.buy_ticket()
 
-
-
     def edit_user_info(self):
         pass
 
     def logout(self):   
         print("shoma kharej shodid be omid didar")   
-        self.user_logged_in = False             
+        self.user_logged_in = False       
+        main_menu()
         
-         
     def print_panel(self):
         if self.user_logged_in == True:
             choice = input("Enter your choice \n(1: Buy Ticket, 2: Edit User Information, 3: Logout)\n : ")
