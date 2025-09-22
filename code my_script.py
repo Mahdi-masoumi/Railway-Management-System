@@ -1,7 +1,5 @@
 import re
-import os
-import datetime
-from bank import API
+
 
 class User:
     def __init__(self, username, email, password, isloguser):
