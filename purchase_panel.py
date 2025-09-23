@@ -1,9 +1,10 @@
 import os
+import subprocess as sp
 from bank import API
 
 
 class PurchasePanel:
-    def __init__(self ,train_info,user_logged_in):
+    def __init__(self, train_info: list, user_logged_in: bool):
         self.train_info = train_info
         self.user_logged_in = user_logged_in
         self.balance = 0
@@ -21,7 +22,7 @@ class PurchasePanel:
             if not all(x.isdigit() for x in (card, exp_month, exp_year, password, cvv2)):
                 print("Invalid information")
                 self.print_panel()
-            else :
+            else:
                 card = int(card)
                 exp_month = int(exp_month)
                 exp_year = int(exp_year)
@@ -30,8 +31,9 @@ class PurchasePanel:
 
             api = API()
             try:
-                payment_id = api.pay(card, exp_month, exp_year, password, cvv2, amount)
-                print(f"Payment successful! Payment ID: {payment_id}")
+                payment_id = api.pay(
+                    card, exp_month, exp_year, password, cvv2, amount)
+                print(f"balance added successfully! Payment ID: {payment_id}")
                 self.my_cards.append({
                     "card": card,
                     "exp_month": exp_month,
@@ -47,30 +49,32 @@ class PurchasePanel:
                 print("invalid input")
                 self.print_panel()
 
-
     def buy_ticket(self):
         with open("trains.txt", "w") as f:
             for train in self.train_info:
                 for key, value in train.items():
                     f.write(f"{key} = {value}, ")
                 f.write("\n")
-        os.startfile('trains.txt')
+        # os.system.startfile('trains.txt')
+        sp.call(['open', 'trains.txt'])
 
         print(f"Your current balance: {self.balance}")
-        purchase_panel_choice = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
+        purchase_panel_choice = input(
+            "Trains opened.\n1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
 
         if purchase_panel_choice == "1":
             try:
-                add = int(input("Add funds: "))
+                add = int(input("How much do want to add?"))
             except ValueError:
                 print("Invalid input! Please enter a number.")
                 self.buy_ticket()
             if self.my_cards != []:
                 for card in self.my_cards:
                     print(card)
-                choice3 = input("Select one of your saved cards, or type 'new' to add a new card.: ")
+                choice3 = input(
+                    "Select one of your saved cards, or type 'new' to add a new card.: ")
                 if choice3 == "new":
-                    self.add_funds(add,1)
+                    self.add_funds(add, 1)
                     print(self.balance)
                 else:
                     for card in self.my_cards:
@@ -79,14 +83,16 @@ class PurchasePanel:
                             print(self.balance)
                             break
             else:
-                self.add_funds(add,1)
+                self.add_funds(add, 1)
                 print(self.balance)
             self.print_panel()
 
         elif purchase_panel_choice == "2":
-            train_name = input("Enter the name of the train you want to buy a ticket for: ")
+            train_name = input(
+                "Enter the name of the train you want to buy a ticket for: ")
             try:
-                ticket_count = int(input("Enter the number of tickets you want: "))
+                ticket_count = int(
+                    input("Enter the number of tickets you want: "))
             except ValueError:
                 print("Invalid input! Please enter a number.")
             for train in self.train_info:
@@ -96,16 +102,19 @@ class PurchasePanel:
                         if self.balance >= total_amount:
                             train["mojodi"] -= ticket_count
                             self.balance -= total_amount
-                            print(f"The total amount {total_amount} has been successfully deducted from your account!")
+                            print(
+                                f"The total amount {total_amount} has been successfully deducted from your account!")
                             print(f"Current balance = {self.balance}")
 
-                            self.print_panel() # back
+                            self.print_panel()  # back
 
                         else:
-                            print("Insufficient balance!")
+                            print(
+                                f"Insufficient balance! balance should be {total_amount}")
                             self.buy_ticket()
                     else:
-                        print("The number of tickets you requested exceeds the available tickets!")
+                        print(
+                            "The number of tickets you requested exceeds the available tickets!")
                         self.buy_ticket()
         elif purchase_panel_choice == "3":
             self.print_panel()
@@ -113,8 +122,6 @@ class PurchasePanel:
         else:
             print("Invalid input! Please enter a number.")
             self.buy_ticket()
-
-
 
     def edit_user_info(self):
         pass
@@ -124,7 +131,8 @@ class PurchasePanel:
 
     def print_panel(self):
         if self.user_logged_in == True:
-            choice = input("Enter your choice : \n1.Buy Ticket\n2.Edit User Information\n3.Logout\n ")
+            choice = input(
+                "Enter your choice :\n1.Buy Ticket\n2.Edit User Information\n3.Logout\n ")
             if choice == "1":
                 self.buy_ticket()
             elif choice == "2":
@@ -135,9 +143,10 @@ class PurchasePanel:
                 print("Invalid input! ")
                 self.print_panel()
 
-# trains = [
-#     {"name" : "fadak", "roh" : "tehran_shomal", "price" : 300000, "mojodi": 12},
-#     {"name" : "fadake", "roh" : "tehran_shomal", "price" : 750000, "mojodi": 5}
-# ]
+
+trains = [
+    {"name": "fadak", "roh": "tehran_shomal", "price": 300000, "mojodi": 12},
+    {"name": "fadake", "roh": "tehran_shomal", "price": 750000, "mojodi": 5}
+]
 # c1 = PurchasePanel(trains, True)
 # c1.print_panel()
