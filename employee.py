@@ -82,9 +82,6 @@ class Employee:
         if not name or not start or not stop:
             print("Name, start, and stop cannot be empty.")
             return
-        if name in self.lines:
-            print(f"Line '{name}' already exists.")
-            return
         if not start.replace(" ", "").isalpha() or not stop.replace(" ", "").isalpha():
             print("start and stop must only contain letters.")
             return
@@ -94,13 +91,18 @@ class Employee:
         if name in self.lines:
             print(f"Line '{name}' already exists.")
             return
-        
+
+        station_list = [s.strip() for s in stations.split(",") if s.strip()]
+        station_count = len(station_list)
+
         self.lines[name] = {
             "start": start,
             "stop": stop,
-            "stations": stations
+            "stations": station_list,   
+            "station_count": station_count
         }
-        print(f"line '{name}' added.")
+        print(f"line '{name}' added with {station_count} stations.")
+
 
     def update_line(self, name, new_start=None, new_stop=None, new_stations=None):
         if name not in self.lines:
