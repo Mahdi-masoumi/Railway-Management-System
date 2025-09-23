@@ -96,7 +96,7 @@ def admin_panel():
         print("4. Logout")
 
         choice = input("Enter choice: ").strip()
-    
+
         if not choice:
             print("Input cannot be empty. Try again.")
             continue
@@ -112,14 +112,5 @@ def admin_panel():
         elif choice == "3":
             list_employees()
         elif choice == "4":
-            print("Logging out...")
+            print("Logged out! ✌️")
             break
-
-
-
-  
-
-
-
-
-                  
