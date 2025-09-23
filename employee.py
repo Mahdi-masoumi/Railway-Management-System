@@ -181,9 +181,10 @@ class Employee:
             print("Start time must be in HH:MM format (e.g. 08:05).")
             return
 
-        travel_minutes = (distance / avg_speed) * 60
-        arrival_dt = start_dt + timedelta(minutes=travel_minutes + delay)
-        departure_dt = arrival_dt + timedelta(minutes=stop_time)
+        travel_minutes = (float(distance) / float(avg_speed)) * 60
+        arrival_dt = start_dt + \
+            timedelta(minutes=travel_minutes + float(delay))
+        departure_dt = arrival_dt + timedelta(minutes=float(stop_time))
 
         for train in self.trains_list:
             if train["train_line"] == train_line:

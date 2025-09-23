@@ -11,6 +11,11 @@ def is_valid_email(email):
     return re.match(pattern, email) is not None
 
 
+def is_valid_password(password):
+    pattern = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+$'
+    return re.match(pattern, password) is not None
+
+
 def admin_login():
     print("\n--- Admin Login ---")
     username = input("Enter username: ").strip()
@@ -38,6 +43,10 @@ def add_employee():
 
     if not is_valid_email(email):
         print("Invalid email format.")
+        return
+
+    if not is_valid_password(password):
+        print("Invalid password. Password must contain letters, numbers, and @ or &.")
         return
 
     if username in train_employees:
