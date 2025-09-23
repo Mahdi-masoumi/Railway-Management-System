@@ -1,2 +1,0 @@
-name = fadak, roh = tehran_shomal, price = 300000, mojodi = 12, 
-name = fadake, roh = tehran_shomal, price = 750000, mojodi = 5, 
