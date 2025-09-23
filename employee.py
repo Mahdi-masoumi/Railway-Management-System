@@ -147,54 +147,46 @@ class Employee:
                 f"{name}: {info['start']} -> {info['stop']} | Stations: {stations_str}")
 
     # Train Methods
-    def add_train(self, name: str, train_line: str, avg_speed: str, delay: str, quality: str, ticket_price: str, capacity: str, distance: float, start_time: str, stop_time: float):
+
+    def add_train(self, name: str, train_line: str, avg_speed: float, delay: float,
+                  quality: float, ticket_price: float, capacity,
+                  distance: float, start_time: str, stop_time: float):
         if any(train['name'] == name for train in self.trains_list):
             print(f"Train with name {name} already exists.")
             return
+
         try:
             avg_speed = float(avg_speed)
             delay = float(delay)
             quality = float(quality)
             ticket_price = float(ticket_price)
             capacity = int(capacity)
+            distance = float(distance)
+            stop_time = float(stop_time)
         except ValueError:
-            print("Invalid input: Please enter valid numbers")
+            print("Invalid numeric value for train attributes.")
             return
-        if avg_speed <= 0:
-            print("Average speed must be greater than 0")
-            return
-        if delay < 0:
-            print("Delay cannot be negative")
-            return
-        if not 1 <= quality <= 5:
-            print("Quality must be between 1 and 5")
-            return
-        if ticket_price < 0:
-            print("Ticket price cannot be negative")
-            return
-        if capacity <= 0:
-            print("Capacity must be greater than 0")
-            return
+
         try:
             start_dt = datetime.strptime(start_time, "%H:%M")
         except ValueError:
             print("Start time must be in HH:MM format (e.g. 08:05).")
             return
 
-        travel_minutes = (float(distance) / float(avg_speed)) * 60
-        arrival_dt = start_dt + \
-            timedelta(minutes=travel_minutes + float(delay))
-        departure_dt = arrival_dt + timedelta(minutes=float(stop_time))
+        travel_minutes = (distance / avg_speed) * 60
+        arrival_dt = start_dt + timedelta(minutes=travel_minutes + delay)
+        departure_dt = arrival_dt + timedelta(minutes=stop_time)
 
         for train in self.trains_list:
             if train["train_line"] == train_line:
-                other_arrival = train["arrival"]
-                other_departure = train["departure"]
+                if "arrival" in train and "departure" in train:
+                    other_arrival = train["arrival"]
+                    other_departure = train["departure"]
 
-                if arrival_dt <= other_departure and departure_dt >= other_arrival:
-                    print(
-                        f"Collision detected with train {train['name']}! Cannot add this train.")
-                    return
+                    if arrival_dt <= other_departure and departure_dt >= other_arrival:
+                        print(
+                            f"Collision detected with train {train['name']}! Cannot add this train.")
+                        return
 
         train = {
             "name": name,
@@ -203,7 +195,12 @@ class Employee:
             "delay": delay,
             "quality": quality,
             "ticket_price": ticket_price,
-            "capacity": capacity
+            "capacity": capacity,
+            "distance": distance,
+            "start_time": start_time,
+            "stop_time": stop_time,
+            "arrival": arrival_dt,
+            "departure": departure_dt
         }
         self.trains_list.append(train)
         print(f"Train {name} added successfully.")
