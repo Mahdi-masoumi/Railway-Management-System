@@ -94,6 +94,7 @@ class Employee:
         if name in self.lines:
             print(f"Line '{name}' already exists.")
             return
+        
         self.lines[name] = {
             "start": start,
             "stop": stop,
@@ -194,7 +195,7 @@ class Employee:
                             f"Collision detected with train {train['name']}! Cannot add this train.")
                         return
         train_id = f"{name}_{capacity}"
-        
+
         train = {
             "id": train_id,
             "name": name,
@@ -230,11 +231,16 @@ class Employee:
         print(f"Train with name {name} not found.")
 
     def view_trains(self):
+        if not self.trains_list:
+            print("Train List is empty!")
+            return
         for train in self.trains_list:
-            print(
+                print(
+                f"ID: {train['id']} | "
                 f"train name: {train['name']} | line: {train['train_line']} | speed: {train['avg_speed']} | delay: {train['delay']} "
                 f"| quality: {train['quality']} | price: {train['ticket_price']} | capacity: {train['capacity']} "
                 f"| distance: {train['distance']} | start: {train['start_time']} | stop time: {train['stop_time']} "
                 f"| arrival: {train['arrival'].strftime('%H:%M')} | departure: {train['departure'].strftime('%H:%M')}"
             )
+
             # print(f"train name: {train['name']} | train line: {train['train_line']} | average speed: {train['avg_speed']} | delay: {train['delay']} | quality: {train['quality']} | ticket price: {train['ticket_price']} | capacity: {train['capacity']}")
