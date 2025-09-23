@@ -2,7 +2,7 @@ import re
 
 
 class User:
-    def __init__(self, username, email, password, isloguser):
+    def __init__(self, username, email, password, isloguser=False):
         self.loguser = isloguser
         self.username = username
         self.email = email
@@ -17,8 +17,8 @@ class User:
         print(" Information has been updated.")
 
 
-
 users = []
+
 
 def is_valid_password(password):
     if len(password) < 6:
@@ -58,17 +58,14 @@ def signup():
 
 
 def login():
-    global loguser
     print("\n--- User Login ---")
     username = input("Username: ").strip()
     password = input("Password: ").strip()
 
     for u in users:
         if u.username == username and u.password == password:
+            u.loguser = True
             print(f" Welcome {username}!")
-            loguser = True
-        else:
-            loguser = False
             return u
 
     print(" Username or password is invalid.")
@@ -87,5 +84,3 @@ def edit_user_info(user):
 
     user.edit_info(new_email if new_email else None,
                    new_password if new_password else None)
-
-
