@@ -21,8 +21,7 @@ def main_menu():
         # user panel
         if main_menu_choice == "3":
             # TODO: pass in the trains list and is_user_logged_in to the user panel
-            trains = [{"name": "fadak", "roh": "tehran_shomal", "price": 300000, "mojodi": 12}, {
-                "name": "fadake", "roh": "tehran_shomal", "price": 750000, "mojodi": 5}]
+            trains = Employee().trains_list
             PurchasePanel(trains, True).print_panel()
         # Exit
         if main_menu_choice == "4":

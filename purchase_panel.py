@@ -144,9 +144,6 @@ class PurchasePanel:
                 self.print_panel()
 
 
-trains = [
-    {"name": "fadak", "roh": "tehran_shomal", "price": 300000, "mojodi": 12},
-    {"name": "fadake", "roh": "tehran_shomal", "price": 750000, "mojodi": 5}
-]
+# trains = Employee().trains_list
 # c1 = PurchasePanel(trains, True)
 # c1.print_panel()
