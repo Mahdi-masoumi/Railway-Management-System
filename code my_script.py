@@ -88,7 +88,7 @@ def edit_user_info(user):
     user.edit_info(new_email if new_email else None,
                    new_password if new_password else None)
 
-// testing //
+#testing
 while True:
     print("\n1. Signup\n2. Login\n3. Exit")
     choice = input("Choose: ").strip()
