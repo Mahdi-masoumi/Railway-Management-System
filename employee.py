@@ -193,8 +193,10 @@ class Employee:
                         print(
                             f"Collision detected with train {train['name']}! Cannot add this train.")
                         return
-
+        train_id = f"{name}_{capacity}"
+        
         train = {
+            "id": train_id,
             "name": name,
             "train_line": train_line,
             "avg_speed": avg_speed,
