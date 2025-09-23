@@ -1,2 +1,1 @@
-name = fadak, roh = tehran_shomal, price = 300000, mojodi = 12, 
-name = fadake, roh = tehran_shomal, price = 750000, mojodi = 5, 
+name = train 1, train_line = line 1, avg_speed = 120.0, delay = 5.0, quality = 2.0, ticket_price = 24.0, capacity = 24, distance = 20.0, start_time = 08:00, stop_time = 5.0, arrival = 1900-01-01 08:15:00, departure = 1900-01-01 08:20:00, 
