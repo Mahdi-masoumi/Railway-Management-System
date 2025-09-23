@@ -86,17 +86,18 @@ def edit_user_info(user):
     user.edit_info(new_email if new_email else None,
                    new_password if new_password else None)
 
+
+
 class PurchasePanel:
-    def __init__(self, train_info, user: User):
+    def __init__(self ,train_info,user_logged_in):
         self.train_info = train_info
-        self.user = user
-        self.balance = user.wallet  # synced with user wallet
+        self.user_logged_in = user_logged_in
+        self.balance = 0
         self.my_cards = []
 
     def add_funds(self, amount, num):
         if num == 2:
             self.balance += amount
-            self.user.wallet = self.balance
         else:
             card = input("Enter card number: ")
             exp_month = input("Enter expiration month (1-12): ")
@@ -106,7 +107,7 @@ class PurchasePanel:
             if not all(x.isdigit() for x in (card, exp_month, exp_year, password, cvv2)):
                 print("Invalid information")
                 self.print_panel()
-            else:
+            else :
                 card = int(card)
                 exp_month = int(exp_month)
                 exp_year = int(exp_year)
@@ -116,7 +117,7 @@ class PurchasePanel:
             api = API()
             try:
                 payment_id = api.pay(card, exp_month, exp_year, password, cvv2, amount)
-                print(f"balance added successfully! Payment ID: {payment_id}")
+                print(f"Payment successful! Payment ID: {payment_id}")
                 self.my_cards.append({
                     "card": card,
                     "exp_month": exp_month,
@@ -127,11 +128,11 @@ class PurchasePanel:
                 })
                 if num == 1:
                     self.balance += amount
-                    self.user.wallet = self.balance
 
             except ValueError:
                 print("invalid input")
                 self.print_panel()
+
 
     def buy_ticket(self):
         with open("trains.txt", "w") as f:
@@ -139,38 +140,32 @@ class PurchasePanel:
                 for key, value in train.items():
                     f.write(f"{key} = {value}, ")
                 f.write("\n")
-        try:
-            sp.call(['open', 'trains.txt'])
-        except:
-            print("Could not open trains.txt automatically. Please open it manually.")
+        os.startfile('trains.txt')
 
         print(f"Your current balance: {self.balance}")
-        purchase_panel_choice = input(
-            "Trains opened.\n1: Add funds\n2: Continue purchase\n3: back\nYour choice: ")
+        purchase_panel_choice = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
 
         if purchase_panel_choice == "1":
             try:
-                add = int(input("How much do want to add?"))
+                add = int(input("Add funds: "))
             except ValueError:
                 print("Invalid input! Please enter a number.")
                 self.buy_ticket()
-                return
-
             if self.my_cards != []:
                 for card in self.my_cards:
                     print(card)
                 choice3 = input("Select one of your saved cards, or type 'new' to add a new card.: ")
                 if choice3 == "new":
-                    self.add_funds(add, 1)
+                    self.add_funds(add,1)
                     print(self.balance)
                 else:
                     for card in self.my_cards:
-                        if str(card["card"]) == choice3:
+                        if card["card"] == choice3:
                             self.add_funds(add, 2)
                             print(self.balance)
                             break
             else:
-                self.add_funds(add, 1)
+                self.add_funds(add,1)
                 print(self.balance)
             self.print_panel()
 
@@ -180,8 +175,6 @@ class PurchasePanel:
                 ticket_count = int(input("Enter the number of tickets you want: "))
             except ValueError:
                 print("Invalid input! Please enter a number.")
-                return
-
             for train in self.train_info:
                 if train["name"] == train_name:
                     if train["mojodi"] >= ticket_count:
@@ -189,46 +182,48 @@ class PurchasePanel:
                         if self.balance >= total_amount:
                             train["mojodi"] -= ticket_count
                             self.balance -= total_amount
-                            self.user.wallet = self.balance
                             print(f"The total amount {total_amount} has been successfully deducted from your account!")
                             print(f"Current balance = {self.balance}")
-                            self.print_panel()
+
+                            self.print_panel() # back
+
                         else:
-                            print(f"Insufficient balance! balance should be {total_amount}")
+                            print("Insufficient balance!")
                             self.buy_ticket()
                     else:
                         print("The number of tickets you requested exceeds the available tickets!")
                         self.buy_ticket()
         elif purchase_panel_choice == "3":
             self.print_panel()
+
         else:
             print("Invalid input! Please enter a number.")
             self.buy_ticket()
 
+
+
+    def edit_user_info(self):
+        pass
+
+    def logout(self):
+        pass
+
     def print_panel(self):
-        if self.user.is_logged_in:
-            choice = input("Enter your choice :\n1.Buy Ticket\n2.Edit User Information\n3.Logout\n ")
+        if self.user_logged_in == True:
+            choice = input("Enter your choice : \n1.Buy Ticket\n2.Edit User Information\n3.Logout\n ")
             if choice == "1":
                 self.buy_ticket()
             elif choice == "2":
-                edit_user_info(self.user)
-                self.print_panel()
+                self.edit_user_info()
             elif choice == "3":
-                self.user.is_logged_in = False
-                print("You have been logged out.")
+                self.logout()
             else:
                 print("Invalid input! ")
                 self.print_panel()
-        else:
-            print("You must log in first.")
 
-trains = [
-    {"name": "fadak", "roh": "tehran_shomal", "price": 300000, "mojodi": 12},
-    {"name": "fadake", "roh": "tehran_shomal", "price": 750000, "mojodi": 5}
-]
-
-# signup()
-# user = login()
-# if user:
-#     c1 = PurchasePanel(trains, user)
-#     c1.print_panel()
+# trains = [
+#     {"name" : "fadak", "roh" : "tehran_shomal", "price" : 300000, "mojodi": 12},
+#     {"name" : "fadake", "roh" : "tehran_shomal", "price" : 750000, "mojodi": 5}
+# ]
+# c1 = PurchasePanel(trains, True)
+# c1.print_panel()
