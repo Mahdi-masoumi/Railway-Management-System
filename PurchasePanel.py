@@ -57,9 +57,9 @@ class PurchasePanel:
         os.startfile('trains.txt')
 
         print(f"Your current balance: {self.balance}")
-        choice2 = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ") # 1_افزایش موجودی 2_ادامه خرید
+        purchase_panel_choice = input("Trains opened.\n 1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
 
-        if choice2 == "1":
+        if purchase_panel_choice == "1":
             try:
                 add = int(input("Add funds: "))
             except ValueError:
@@ -67,7 +67,7 @@ class PurchasePanel:
                 self.buy_ticket()
             if self.my_cards != []:
                 for card in self.my_cards:
-                    print(f"")
+                    print(card)
                 choice3 = input("Select one of your saved cards, or type 'new' to add a new card.: ")
                 if choice3 == "new":
                     self.add_funds(add,1)
@@ -83,7 +83,7 @@ class PurchasePanel:
                 print(self.balance)
             self.print_panel()
 
-        elif choice2 == "2":
+        elif purchase_panel_choice == "2":
             train_name = input("Enter the name of the train you want to buy a ticket for: ")
             try:
                 ticket_count = int(input("Enter the number of tickets you want: "))
@@ -107,7 +107,7 @@ class PurchasePanel:
                     else:
                         print("The number of tickets you requested exceeds the available tickets!")
                         self.buy_ticket()
-        elif choice2 == "3":
+        elif purchase_panel_choice == "3":
             self.print_panel()
 
         else:
@@ -124,7 +124,7 @@ class PurchasePanel:
 
     def print_panel(self):
         if self.user_logged_in == True:
-            choice = input("Enter your choice \n(1: Buy Ticket, 2: Edit User Information, 3: Logout)\n : ")
+            choice = input("Enter your choice : \n1.Buy Ticket\n2.Edit User Information\n3.Logout\n ")
             if choice == "1":
                 self.buy_ticket()
             elif choice == "2":
@@ -135,9 +135,9 @@ class PurchasePanel:
                 print("Invalid input! ")
                 self.print_panel()
 
-trains = [
-    {"name" : "fadak", "roh" : "tehran_shomal", "price" : 300000, "mojodi": 12},
-    {"name" : "fadake", "roh" : "tehran_shomal", "price" : 750000, "mojodi": 5}
-]
-c1 = PurchasePanel(trains, True)
-c1.print_panel()
+# trains = [
+#     {"name" : "fadak", "roh" : "tehran_shomal", "price" : 300000, "mojodi": 12},
+#     {"name" : "fadake", "roh" : "tehran_shomal", "price" : 750000, "mojodi": 5}
+# ]
+# c1 = PurchasePanel(trains, True)
+# c1.print_panel()
