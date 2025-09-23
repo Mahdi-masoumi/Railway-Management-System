@@ -1,6 +1,8 @@
 import re
 import subprocess as sp
 from bank import API
+import datetime
+import os
 
 class User:
     def __init__(self, username, email, password, is_logged_in=False):
@@ -227,3 +229,39 @@ class PurchasePanel:
 # ]
 # c1 = PurchasePanel(trains, True)
 # c1.print_panel()
+
+
+
+def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
+    purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    filename = f"{buyer_name}_ticket.txt"
+
+    with open(filename, "a", encoding="utf-8") as f:
+        f.write("===== Railway Ticket =====\n")
+        f.write(f"Buyer       : {buyer_name}\n")
+        f.write(f"Train       : {train_name}\n")
+        f.write(f"Tickets     : {ticket_count}\n")
+        f.write(f"Total Price : {total_amount}\n")
+        f.write(f"Date & Time : {purchase_time}\n")
+        f.write("==========================\n")
+    
+    os.startfile(filename)
+
+    
+    print("\n===== Railway Ticket =====")
+    print(f"Buyer       : {buyer_name}")
+    print(f"Train       : {train_name}")
+    print(f"Tickets     : {ticket_count}")
+    print(f"Total Price : {total_amount}")
+    print(f"Date & Time : {purchase_time}")
+    print("==========================")
+    print(f"bilit ba onvan {filename} zakhire shod")
+
+    buyer_name = input("Enter your name: ")  
+    self.issue_ticket(buyer_name, train_name, ticket_count, total_amount)
+
+
+    def logout(self):   
+        print("shoma kharej shodid be omid didar")   
+        self.user_logged_in = False
+
