@@ -85,3 +85,57 @@ class User:
                 return
         print("Username or password is invalid.")
         return None
+
+    def edit_user(self, username, **kwargs):
+        for user in self.users:
+            if user['username'] == username:
+                user.update({k: v for k, v in kwargs.items() if k in user})
+                print(f"Train {username} updated successfully.")
+                return
+            print("Username is invalid!")
+
+    def edit_user_info(self):
+        """Allow users to edit their information."""
+        print("\n--- Edit User Information ---")
+        print("1. Change Username")
+        print("2. Change Email")
+        print("3. Change Password")
+        print("4. Back")
+
+        choice = input("Enter your choice (1-4): ").strip()
+
+        if not self.is_logged_in:
+            print("You must be logged in to edit your information.")
+            return
+
+        if choice == "1":
+            new_username = input("Enter new username: ").strip()
+            if any(user['username'] == new_username for user in self.users):
+                print("Username already taken!")
+                return
+            self.edit_user(self.username, username=new_username)
+            self.username = new_username
+
+        elif choice == "2":
+            new_email = input("Enter new email: ").strip()
+            if any(user['email'] == new_email for user in self.users):
+                print("Email already in use!")
+                return
+            self.edit_user(self.username, email=new_email)
+
+        elif choice == "3":
+            new_password = input("Enter new password: ").strip()
+            if not self.is_valid_password(new_password):
+                print(
+                    "Invalid password! Must include uppercase, lowercase, number, and @ or &.")
+                return
+            self.edit_user(self.username, password=new_password)
+            self.password = new_password
+
+        elif choice == "4":
+            return
+        else:
+            print("Invalid choice!")
+            return
+
+        print("Information updated successfully!")

@@ -1,18 +1,31 @@
-import os
 import subprocess as sp
 from bank import API
+from datetime import datetime
+import os
+from user_panel import User
 
 
 class PurchasePanel:
-    def __init__(self, train_info: list, user_logged_in: bool):
+    def __init__(self, train_info, user: User):
         self.train_info = train_info
-        self.user_logged_in = user_logged_in
-        self.balance = 0
+        self.user = user
+        self.balance = user.wallet
         self.my_cards = []
+
+    def save_transaction(self, user_name, action, amount=0, extra=""):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file_name = f"{user_name}.txt"
+
+        with open(file_name, "a", encoding="utf-8") as f:
+            f.write(
+                f"--- Transaction Record ---\nTime: {now}\nAction: {action}\nAmount: {amount}\nDetails: {extra}\n--------------------------\n\n")
 
     def add_funds(self, amount, num):
         if num == 2:
             self.balance += amount
+            self.user.wallet = self.balance
+            self.save_transaction("name_user", "add funds",
+                                  amount, "charg shod !")
         else:
             card = input("Enter card number: ")
             exp_month = input("Enter expiration month (1-12): ")
@@ -44,6 +57,9 @@ class PurchasePanel:
                 })
                 if num == 1:
                     self.balance += amount
+                    self.user.wallet = self.balance
+                    self.save_transaction(
+                        "name_user", "add funds", amount, "charg shod !")
 
             except ValueError:
                 print("invalid input")
@@ -55,12 +71,14 @@ class PurchasePanel:
                 for key, value in train.items():
                     f.write(f"{key} = {value}, ")
                 f.write("\n")
-        # os.system.startfile('trains.txt')
-        sp.call(['open', 'trains.txt'])
+        try:
+            sp.call(['open', 'trains.txt'])
+        except:
+            print("Could not open trains.txt automatically. Please open it manually.")
 
         print(f"Your current balance: {self.balance}")
         purchase_panel_choice = input(
-            "Trains opened.\n1: Add funds\n2: Continue purchase\n3.back\nYour choice: ")
+            "Trains opened.\n1: Add funds\n2: Continue purchase\n3: back\nYour choice: ")
 
         if purchase_panel_choice == "1":
             try:
@@ -68,6 +86,8 @@ class PurchasePanel:
             except ValueError:
                 print("Invalid input! Please enter a number.")
                 self.buy_ticket()
+                return
+
             if self.my_cards != []:
                 for card in self.my_cards:
                     print(card)
@@ -78,7 +98,7 @@ class PurchasePanel:
                     print(self.balance)
                 else:
                     for card in self.my_cards:
-                        if card["card"] == choice3:
+                        if str(card["card"]) == choice3:
                             self.add_funds(add, 2)
                             print(self.balance)
                             break
@@ -95,19 +115,22 @@ class PurchasePanel:
                     input("Enter the number of tickets you want: "))
             except ValueError:
                 print("Invalid input! Please enter a number.")
+                return
+
             for train in self.train_info:
                 if train["name"] == train_name:
-                    if train["mojodi"] >= ticket_count:
+                    if train["capacity"] >= ticket_count:
                         total_amount = ticket_count * train["price"]
                         if self.balance >= total_amount:
-                            train["mojodi"] -= ticket_count
+                            train["capacity"] -= ticket_count
                             self.balance -= total_amount
+                            self.save_transaction("name_user", "buy ticket", total_amount,
+                                                  f"Train: {train_name}, Count: {ticket_count}, Route: {train['']}")
+                            self.user.wallet = self.balance
                             print(
                                 f"The total amount {total_amount} has been successfully deducted from your account!")
                             print(f"Current balance = {self.balance}")
-
-                            self.print_panel()  # back
-
+                            self.print_panel()
                         else:
                             print(
                                 f"Insufficient balance! balance should be {total_amount}")
@@ -118,32 +141,36 @@ class PurchasePanel:
                         self.buy_ticket()
         elif purchase_panel_choice == "3":
             self.print_panel()
-
         else:
             print("Invalid input! Please enter a number.")
             self.buy_ticket()
 
-    def edit_user_info(self):
-        pass
+    def show_transactions(self, username):
+        file_name2 = f"{username}.txt"
+        if not os.path.exists(file_name2):
+            print("nabood")
+            return
 
-    def logout(self):
-        pass
+        with open(file_name2, "r", encoding="utf-8") as f:
+            print(f.read())
+        self.print_panel()
 
     def print_panel(self):
-        if self.user_logged_in == True:
+        if self.user.is_logged_in:
             choice = input(
-                "Enter your choice :\n1.Buy Ticket\n2.Edit User Information\n3.Logout\n ")
+                "Enter your choice :\n1.Buy Ticket\n2.Edit User Information\n3.Logout\n4.Show Transactions\n ")
             if choice == "1":
                 self.buy_ticket()
             elif choice == "2":
-                self.edit_user_info()
+                self.user.edit_user_info()
+                self.print_panel()
             elif choice == "3":
-                self.logout()
+                self.user.is_logged_in = False
+                print("You have been logged out.")
+            elif choice == "4":
+                self.show_transactions("name_user")
             else:
                 print("Invalid input! ")
                 self.print_panel()
-
-
-# trains = Employee().trains_list
-# c1 = PurchasePanel(trains, True)
-# c1.print_panel()
+        else:
+            print("You must log in first.")
