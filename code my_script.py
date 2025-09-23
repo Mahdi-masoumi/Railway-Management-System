@@ -75,7 +75,7 @@ def login():
 def edit_user_info(user):
     print("\n--- Edit Profile Information ---")
     print(f" Current email: {user.email}")
-    print(f" Current password: {user.password}")  # بهتره فقط برای تست نشون داده بشه
+    print(f" Current password: {user.password}") 
 
     new_email = input("Enter new email (leave empty to keep current): ").strip()
     new_password = input("Enter new password (leave empty to keep current): ").strip()
