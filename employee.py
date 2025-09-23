@@ -1,4 +1,5 @@
 class Employee:
+
     trains_list = []
     lines = {}
 
@@ -129,12 +130,29 @@ class Employee:
                 f"{name}: {info['start']} -> {info['stop']} | Stations: {stations_str}")
 
     # Train Methods
-    def add_train(self, name: str, train_line: str, avg_speed: float, delay: float, quality: float, ticket_price: float, capacity: int):
+    def add_train(self, name: str, train_line: str, avg_speed: float, delay: float, quality: float, ticket_price: float, capacity):
         if any(train['name'] == name for train in self.trains_list):
             print(f"Train with name {name} already exists.")
             return
-        if not isinstance(avg_speed, float) and not isinstance(delay, float) and not isinstance(quality, float) and not isinstance(ticket_price, float) and not isinstance(capacity, int) and avg_speed <= 0 or delay < 0 or not (1 <= quality <= 5) or ticket_price < 0 or capacity <= 0:
-            print("Invalid train attributes. Please check the values.")
+        if not avg_speed or not isinstance(avg_speed, float) or avg_speed <= 0:
+            print(
+                "average speed is not valid! enter a float greater than or equal to 0")
+            return
+        if not delay or not isinstance(delay, float) or delay < 0:
+            print(
+                "delay amount is not valid! enter a float greater than or equal to 0")
+            return
+        if not quality or isinstance(quality, float) or not (1 <= quality <= 5):
+            print(
+                "quality amount is not valid! enter a float gte 0 and lte 5")
+            return
+        if not ticket_price or isinstance(ticket_price, float) or ticket_price < 0:
+            print(
+                "ticket price is not valid! enter a float gte 0")
+            return
+        if not capacity or isinstance(capacity, int) or capacity <= 0:
+            print(
+                "capacity amount is not valid! enter a integer gt 0")
             return
         train = {
             "name": name,
@@ -151,11 +169,7 @@ class Employee:
     def update_train(self, name: str, **kwargs):
         for train in self.trains_list:
             if train['name'] == name:
-                for key, value in kwargs.items():
-                    if key not in train:
-                        print(f"Invalid attribute: {key}")
-                        return
-                    train[key] = value
+                train.update({k: v for k, v in kwargs.items() if k in train})
                 print(f"Train {name} updated successfully.")
                 return
         print(f"Train with name {name} not found.")
@@ -171,3 +185,7 @@ class Employee:
     def view_trains(self):
         for train in self.trains_list:
             print(f"train name: {train['name']} | train line: {train['train_line']} | average speed: {train['avg_speed']} | delay: {train['delay']} | quality: {train['quality']} | ticket price: {train['ticket_price']} | capacity: {train['capacity']}")
+
+
+# Employee().employee_panel()
+# Employee().add_train("Express 101", "North Line", 80.0, 5.0, 4, 500, 200)
