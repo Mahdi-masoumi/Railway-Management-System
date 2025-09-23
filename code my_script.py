@@ -84,3 +84,23 @@ def edit_user_info(user):
 
     user.edit_info(new_email if new_email else None,
                    new_password if new_password else None)
+
+// testing//
+
+
+while True:
+    print("\n1. Signup\n2. Login\n3. Exit")
+    choice = input("Choose: ").strip()
+
+    if choice == "1":
+        signup()
+    elif choice == "2":
+        user = login()
+        if user:
+            edit_choice = input("Do you want to edit your info? (y/n): ").strip().lower()
+            if edit_choice == "y":
+                edit_user_info(user)
+    elif choice == "3":
+        break
+    else:
+        print(" Invalid choice!")
