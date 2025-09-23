@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+
 class Employee:
 
     trains_list = []
@@ -43,8 +46,12 @@ class Employee:
             quality = input("Enter quality (1-5): ")
             ticket_price = input("Enter ticket price: ")
             capacity = input("Enter capacity: ")
+            distance = input("Enter distance to next station (km): ")
+            start_time = input("Enter start time (HH:MM): ")
+            stop_time = input("Enter stop time at station (minutes): ")
+
             self.add_train(train_name, train_line, avg_speed,
-                           delay, quality, ticket_price, capacity)
+                           delay, quality, ticket_price, capacity, distance, start_time, stop_time)
             self.employee_panel()
         elif choice == "6":
             train_name_to_update = input(
@@ -140,7 +147,7 @@ class Employee:
                 f"{name}: {info['start']} -> {info['stop']} | Stations: {stations_str}")
 
     # Train Methods
-    def add_train(self, name: str, train_line: str, avg_speed: str, delay: str, quality: str, ticket_price: str, capacity: str):
+    def add_train(self, name: str, train_line: str, avg_speed: str, delay: str, quality: str, ticket_price: str, capacity: str, distance: float, start_time: str, stop_time: float):
         if any(train['name'] == name for train in self.trains_list):
             print(f"Train with name {name} already exists.")
             return
@@ -168,6 +175,25 @@ class Employee:
         if capacity <= 0:
             print("Capacity must be greater than 0")
             return
+        try:
+            start_dt = datetime.strptime(start_time, "%H:%M")
+        except ValueError:
+            print("Start time must be in HH:MM format (e.g. 08:05).")
+            return
+
+        travel_minutes = (distance / avg_speed) * 60
+        arrival_dt = start_dt + timedelta(minutes=travel_minutes + delay)
+        departure_dt = arrival_dt + timedelta(minutes=stop_time)
+
+        for train in self.trains_list:
+            if train["train_line"] == train_line:
+                other_arrival = train["arrival"]
+                other_departure = train["departure"]
+
+                if arrival_dt <= other_departure and departure_dt >= other_arrival:
+                    print(
+                        f"Collision detected with train {train['name']}! Cannot add this train.")
+                    return
 
         train = {
             "name": name,
@@ -199,4 +225,10 @@ class Employee:
 
     def view_trains(self):
         for train in self.trains_list:
-            print(f"train name: {train['name']} | train line: {train['train_line']} | average speed: {train['avg_speed']} | delay: {train['delay']} | quality: {train['quality']} | ticket price: {train['ticket_price']} | capacity: {train['capacity']}")
+            print(
+                f"train name: {train['name']} | line: {train['train_line']} | speed: {train['avg_speed']} | delay: {train['delay']} "
+                f"| quality: {train['quality']} | price: {train['ticket_price']} | capacity: {train['capacity']} "
+                f"| distance: {train['distance']} | start: {train['start_time']} | stop time: {train['stop_time']} "
+                f"| arrival: {train['arrival'].strftime('%H:%M')} | departure: {train['departure'].strftime('%H:%M')}"
+            )
+            # print(f"train name: {train['name']} | train line: {train['train_line']} | average speed: {train['avg_speed']} | delay: {train['delay']} | quality: {train['quality']} | ticket price: {train['ticket_price']} | capacity: {train['capacity']}")
