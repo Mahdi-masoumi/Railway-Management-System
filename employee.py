@@ -154,6 +154,12 @@ class Employee:
         if any(train['name'] == name for train in self.trains_list):
             print(f"Train with name {name} already exists.")
             return
+        if train_line not in self.lines:
+            print(f"Line '{train_line}' does not exist. Please create the line first.")
+            return
+        if train_line not in self.lines:
+            print(f"Line '{train_line}' does not exist. Please create the line first.")
+            return
 
         try:
             avg_speed = float(avg_speed)
