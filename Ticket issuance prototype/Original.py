@@ -1,7 +1,7 @@
 import datetime
+import os
 
 def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
-    
     purchase_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = f"{buyer_name}_ticket.txt"
 
@@ -13,7 +13,17 @@ def issue_ticket(self, buyer_name, train_name, ticket_count, total_amount):
         f.write(f"Total Price : {total_amount}\n")
         f.write(f"Date & Time : {purchase_time}\n")
         f.write("==========================\n")
+    
+    os.startfile(filename)
 
+    
+    print("\n===== Railway Ticket =====")
+    print(f"Buyer       : {buyer_name}")
+    print(f"Train       : {train_name}")
+    print(f"Tickets     : {ticket_count}")
+    print(f"Total Price : {total_amount}")
+    print(f"Date & Time : {purchase_time}")
+    print("==========================")
     print(f"bilit ba onvan {filename} zakhire shod")
 
     buyer_name = input("Enter your name: ")  
