@@ -1,6 +1,6 @@
 import admin
 from employee import Employee
-from purchase_panel import PurchasePanel
+from user_panel import User
 
 
 def main_menu():
@@ -20,9 +20,10 @@ def main_menu():
             Employee().employee_panel()
         # user panel
         if main_menu_choice == "3":
+            User().user_panel()
             # TODO: pass in the trains list and is_user_logged_in to the user panel
-            trains = Employee().trains_list
-            PurchasePanel(trains, True).print_panel()
+            # trains = Employee().trains_list
+            # PurchasePanel(trains, True).print_panel()
         # Exit
         if main_menu_choice == "4":
             print("👋 Goodbye!")
