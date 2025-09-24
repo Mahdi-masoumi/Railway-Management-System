@@ -2,11 +2,14 @@ import subprocess as sp
 from bank import API
 from datetime import datetime
 import os
-from user_panel import User
+import platform
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from user_panel import User
 
 
 class PurchasePanel:
-    def __init__(self, train_info, user: User):
+    def __init__(self, train_info, user: "User"):
         self.train_info = train_info
         self.user = user
         self.balance = user.wallet

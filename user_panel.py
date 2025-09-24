@@ -81,10 +81,10 @@ class User:
                 self.password = password
                 self.is_logged_in = True
                 print("Login successful!")
-                PurchasePanel(Employee().trains_list, True).print_panel()
+                PurchasePanel(Employee().trains_list, self).print_panel()
                 return
-        print("Username or password is invalid.")
-        return None
+            print("Username or password is invalid.")
+            return None
 
     def edit_user(self, username, **kwargs):
         for user in self.users:
