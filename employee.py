@@ -1,32 +1,10 @@
 from datetime import datetime, timedelta
 
-from admin import train_employees
 
 class Employee:
 
     trains_list = []
     lines = {}
-    def __init__(self, username):
-        self.username = username
-
-    @staticmethod
-    def employee_login():
-        print("\n--- Employee Login ---")
-        username = input("Enter your username: ").strip()
-        password = input("Enter your password: ").strip()
-
-        if username not in train_employees:
-            print("Employee not found!")
-            return None
-
-        if train_employees[username]["password"] != password:
-            print("Incorrect password!")
-            return None
-
-        print(f"Welcome {train_employees[username]['name']} {train_employees[username]['family']}!")
-        return Employee(username)   
-    
-    
 
     def __init__(self):
         pass
